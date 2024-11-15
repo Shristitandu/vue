@@ -1,0 +1,84 @@
+name: Vue.js CI and Deploy to AWS ECR
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+    
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./vue-app  
+
+      
+      - name: Build Vue.js app
+        run: npm run build
+        working-directory: ./vue-app 
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build  
+
+    steps:
+      
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      
+      - name: Build Docker image
+        run: docker build -t my-vue-app:latest -f ./vue-app/Dockerfile .
+
+      
+      - name: Tag and push Docker image to ECR
+        run: |
+          docker tag my-vue-app:latest 988250643582.dkr.ecr.us-east-1.amazonaws.com/my-vue-app:latest
+          docker push 988250643582.dkr.ecr.us-east-1.amazonaws.com/my-vue-app:latest
+
+      
+      - name: Remote SSH Command (Deploy to Server)
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          port: 22109  
+          script: |
+            echo "Pulling latest changes from Git"
+            git pull origin main  
+            echo "Pulling latest Docker image"
+            docker-compose pull  
+            echo "Restarting Docker containers"
+            docker-compose up -d  
+            echo "Deployment completed successfully!"
