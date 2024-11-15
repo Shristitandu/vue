@@ -28,6 +28,10 @@ jobs:
         run: npm install
         working-directory: ./ecomm-vue
 
+      - name: Install missing dependencies (axios, vue-lazyload)
+        run: npm install axios vue-lazyload
+        working-directory: ./ecomm-vue
+
       
       - name: Build Vue.js app
         run: npm run build
