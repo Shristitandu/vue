@@ -76,16 +76,20 @@ jobs:
       - name: Remote SSH Command (Deploy to Server)
         uses: appleboy/ssh-action@v1.1.0
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
+          host: 162.0.216.97
+          #${{ secrets.SSH_HOST }}
+          username: ubuntu
+          #${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          port: ${{ secrets.SSH_PORT }} 
+          passphrase: testUser123
+          #${{ secrets.SSH_PASSPHRASE }}
+          port: 22109
+          #${{ secrets.SSH_PORT }} 
           script: |
             echo "Pulling latest changes from Git"
-            git pull origin main  
+            git pull origin mainnn  
             echo "Pulling latest Docker image"
-            docker-compose pull  
+            docker-compose pullll  
             echo "Restarting Docker containers"
             docker-compose up -d  
             echo "Deployment completed successfully!"
