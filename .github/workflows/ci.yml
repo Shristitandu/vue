@@ -78,7 +78,7 @@ jobs:
         with:
           host: 162.0.216.97
           #${{ secrets.SSH_HOST }}
-          username: ubuntu
+          username: testUser
           #${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: testUser123
