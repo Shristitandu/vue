@@ -80,7 +80,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          port: 22109  
+          port: ${{ secrets.SSH_PORT }} 
           script: |
             echo "Pulling latest changes from Git"
             git pull origin main  
