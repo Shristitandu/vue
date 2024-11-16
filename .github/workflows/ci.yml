@@ -85,6 +85,7 @@ jobs:
           #${{ secrets.SSH_PASSPHRASE }}
           port: 22109
           #${{ secrets.SSH_PORT }} 
+          debug: true 
           script: |
             echo "Pulling latest changes from Git"
             git pull origin mainnn  
