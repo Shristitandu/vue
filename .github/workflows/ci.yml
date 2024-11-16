@@ -63,12 +63,15 @@ jobs:
       - name: Build Docker image
         run: docker build -t my-vue-app:latest -f ./ecomm-vue/Dockerfile .
 
-      
+      - name: Create ECR Repository
+        run: |
+         aws ecr describe-repositories --repository-names my-vue-app --region us-east-1 || \
+         aws ecr create-repository --repository-name my-vue-app --region us-east-1
+
       - name: Tag and push Docker image to ECR
         run: |
           docker tag my-vue-app:latest 988250643582.dkr.ecr.us-east-1.amazonaws.com/my-vue-app:latest
           docker push 988250643582.dkr.ecr.us-east-1.amazonaws.com/my-vue-app:latest
-
       
       - name: Remote SSH Command (Deploy to Server)
         uses: appleboy/ssh-action@v1.1.0
