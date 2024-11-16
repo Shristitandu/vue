@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Copy package files and install dependencies
 COPY ./ecomm-vue/package*.json ./
+RUN npm  install axios vue-lazyload
 RUN npm install
 
 # Copy the entire project and build the Vue.js app
