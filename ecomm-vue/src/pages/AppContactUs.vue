@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <h1>Contact Us</h1>
+      <h1>Please Contact Us</h1>
       <p>We would love to hear from you! Please fill out the form below.</p>
     </div>
     <div class="row">
