@@ -1,6 +1,6 @@
 <template>
   <div class="app">
-    <h1>Product Page</h1>
+    <h1>Product Pages</h1>
 
     <div v-for="(pair, index) in displayedProductPairs" :key="index" class="product-row">
       <div v-for="(product, idx) in pair" :key="idx" class="product">
